@@ -20,6 +20,7 @@ python: gdalvars
         $(SWIG) -c++ -python -modern -new_repr -I../include/python -I../include/python/docs -o extensions/ogr_wrap.cpp -outdir osgeo ..\include\ogr.i
         $(SWIG) -c++ -python -modern -new_repr -I../include/python -I../include/python/docs -o extensions/gnm_wrap.cpp -outdir osgeo ..\include\gnm.i
         $(SWIG) -c++ -python -modern -new_repr -I../include/python -I../include/python/docs -o extensions/gdal_array_wrap.cpp -outdir osgeo ..\include\gdal_array.i
+#        "C:\Program Files\Git\bin\git" apply --unsafe-paths --directory=./python/extensions ./python/python3.2.patch
         $(PYDIR)\python.exe setup.py build
 	cd ..
 

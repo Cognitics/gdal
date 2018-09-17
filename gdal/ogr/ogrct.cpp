@@ -110,7 +110,7 @@ static bool      bProjLocaleSafe = false;
 #endif
 
 #if defined(WIN32) && !defined(__MINGW32__)
-#  define LIBNAME "proj.dll"
+#  define LIBNAME      "proj_4_9.dll"
 #elif defined(__MINGW32__)
 // XXX: If PROJ.4 library was properly built using libtool in Cygwin or MinGW
 // environments it has the interface version number embedded in the file name

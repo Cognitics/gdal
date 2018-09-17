@@ -54,10 +54,14 @@ MSVC_VER=1900
 # But the paths *should* be absolute (relative paths mess up in submakefiles).
 
 !IFNDEF GDAL_HOME
-GDAL_HOME = "C:\warmerda\bld"
+GDAL_HOME = "\open_source\gdal-build"
 !ENDIF
 !IFNDEF BINDIR
+!IFNDEF DEBUG
 BINDIR = $(GDAL_HOME)\bin
+!ELSE
+BINDIR = $(GDAL_HOME)\bin
+!ENDIF
 !ENDIF
 !IFNDEF PLUGINDIR
 PLUGINDIR = $(BINDIR)\gdalplugins
@@ -78,12 +82,12 @@ HTMLDIR = $(GDAL_HOME)\html
 # Set this to the installed directory containing python.  If you don't
 # have python just let it point to a directory that does not exist (as now).
 !IFNDEF PYDIR 
-PYDIR   =	"C:\Software\Python24"
+PYDIR   =	$(PYTHON_PATH)
 !ENDIF
 
 # Set the location of your SWIG installation
 !IFNDEF SWIG
-SWIG = swig.exe
+SWIG = $(ROOT_BUILD_PATH)\swigwin-3.0.12
 !ENDIF
 
 # SWIG Java settings
@@ -319,18 +323,21 @@ JPEG12_SUPPORTED = 1
 # NCSEcw4.lib, and add -DHAVE_COMPRESS to ECWFLAGS.  The ECWDIR setting will
 # also need some adjustment. 
 
+!IF "$(BUILD_ECW)" == "YES"
 # Uncomment the following and update to enable ECW read support with the 5.0 SDK
-#ECWDIR  =  "c:\Intergraph\ecwsdk5"
-#ECWFLAGS = -DECWSDK_VERSION=50 \
-#       -I$(ECWDIR)\include \
-#       -I$(ECWDIR)\include/NCSECW/api -I$(ECWDIR)\include/NCSECW/jp2 \
-#       -I$(ECWDIR)\include/NCSECW/ecw
-#ECWLIB  =  $(ECWDIR)\lib\vc90\win32\NCSEcw.lib
+ECWDIR  =  $(ROOT_BUILD_PATH)\ecwsdk5
+ECWFLAGS = -DECWSDK_VERSION=50 \
+       -I$(ECWDIR)\include \
+       -I$(ECWDIR)\include/NCSECW/api -I$(ECWDIR)\include/NCSECW/jp2 \
+       -I$(ECWDIR)\include/NCSECW/ecw
+ECWLIB  =  $(ECW_LIBDIR)\NCSEcw.lib
+
 
 # To build ECW support as a plugin uncomment the following, and make sure
 # to do "nmake /f makefile.vc plugin" in gdal/frmts/ecw and copy the two
 # resulting DLLs to an appropriate place.
-#ECW_PLUGIN = YES
+ECW_PLUGIN = YES
+!ENDIF
 
 
 # Uncomment the following and update to enable JP2Lura driver
@@ -450,7 +457,7 @@ KAKADU_7_5_OR_LATER = YES
 # Other configuration options can be specified to control specific features
 # that may be available.  See comments at the top of frmts/mrsid/nmake.opt
 # for more details.
-#MRSID_DIR =	d:\projects\mrsid
+#MRSID_DIR =	$(MRSID_SDK)
 #MRSID_JP2 =    YES
 
 !IF DEFINED(MRSID_DIR) || DEFINED(MRSID_RASTER_DIR) || DEFINED(MRSID_LIDAR_DIR)
@@ -567,11 +574,11 @@ OCI_INCLUDE =	-I$(ORACLE_HOME)\oci\include
 #          $(SDE_SDK)\lib\sde$(SDE_VERSION).lib $(SDE_SDK)\lib\sg$(SDE_VERSION).lib      
 
 
-#FGDB_ENABLED = YES
-#FGDB_PLUGIN = YES
-#FGDB_SDK = C:\Users\rburhum\Desktop\FileGDB_API_VS2008_1_0beta3
-#FGDB_INC = $(FGDB_SDK)\include 
-#FGDB_LIB = $(FGDB_SDK)\lib\FileGDBAPI.lib
+FGDB_ENABLED = YES
+FGDB_PLUGIN = YES
+FGDB_SDK = $(FILEGDB_SDK)
+FGDB_INC = $(FILEGDB_INC)\include 
+FGDB_LIB = $(FILEGDB_LIB)
 
 #uncomment to build AmigoCloud as a plugin instead
 #AMIGOCLOUD_PLUGIN = YES
@@ -605,9 +612,10 @@ OCI_INCLUDE =	-I$(ORACLE_HOME)\oci\include
 #DODS_FLAGS = -DLIBDAP_39
 
 # Uncomment for GEOS support (GEOS >= 3.1.0 required)
-#GEOS_DIR=C:/warmerda/geos
-#GEOS_CFLAGS = -I$(GEOS_DIR)/capi -I$(GEOS_DIR)/source/headers -DHAVE_GEOS
-#GEOS_LIB     = $(GEOS_DIR)/source/geos_c_i.lib
+GEOS_DIR=$(OUTPUT_DIR)\
+GEOS_CFLAGS = -I$(OUTPUT_DIR)\include -DHAVE_GEOS
+GEOS_CFLAGS = -I$(OUTPUT_DIR)\include -DHAVE_GEOS
+GEOS_LIB     = $(OUTPUT_DIR)\lib\geos_c_3.5.0.lib
 
 # Uncomment for SOSI support
 #SOSI_PLUGIN = YES
@@ -777,8 +785,11 @@ ADD_LIBS	=
 # Location of MS Data Access SDK (not really needed anymore I think)
 #MSDASDK =	D:\Software\MDAC_2.6
 
+!IFNDEF DEBUG
 GDAL_DLL =	gdal$(VERSION).dll
-
+!ELSE
+GDAL_DLL =	gdal$(VERSION)d.dll
+!ENDIF
 INC	=	-I$(GDAL_ROOT)\port -I$(GDAL_ROOT)\ogr -I$(GDAL_ROOT)\gcore \
 		-I$(GDAL_ROOT)\alg -I$(GDAL_ROOT)\ogr\ogrsf_frmts  -I$(GDAL_ROOT)\gnm -I$(GDAL_ROOT)\gnm\gnm_frmts -I$(GDAL_ROOT)\apps
 

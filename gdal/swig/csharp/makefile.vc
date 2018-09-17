@@ -20,8 +20,14 @@ GDAL_ROOT	=	..\..
 !IFDEF CSHARP_STATIC_LINKAGE
 GDALLIB	= $(GDAL_ROOT)\gdal.lib
 !ELSE
-GDALLIB	= $(GDAL_ROOT)\gdal_i.lib
+!IFNDEF DEBUG
+GDALLIB  =    $(GDAL_ROOT)\gdal_i.lib
+!ELSE
+GDALLIB =    $(GDAL_ROOT)\gdal_id.lib
 !ENDIF
+!ENDIF
+
+
 
 !IFDEF MONO
 CSC = mcs
