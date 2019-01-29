@@ -188,11 +188,11 @@ class GDALReadDirect {
         try
         {
             int stride = bitmapData.Stride;
-            IntPtr buf = bitmapData.Scan0;
+            System.IntPtr buf = bitmapData.Scan0;
 
             blueBand.ReadRaster(0, 0, width, height, buf, width, height, DataType.GDT_Byte, 4, stride);
-            greenBand.ReadRaster(0, 0, width, height, new IntPtr(buf.ToInt32()+1), width, height, DataType.GDT_Byte, 4, stride);
-            redBand.ReadRaster(0, 0, width, height, new IntPtr(buf.ToInt32()+2), width, height, DataType.GDT_Byte, 4, stride);
+            greenBand.ReadRaster(0, 0, width, height, new System.IntPtr(buf.ToInt32()+1), width, height, DataType.GDT_Byte, 4, stride);
+            redBand.ReadRaster(0, 0, width, height, new System.IntPtr(buf.ToInt32()+2), width, height, DataType.GDT_Byte, 4, stride);
             TimeSpan renderTime = DateTime.Now - start;
             Console.WriteLine("SaveBitmapDirect fetch time: " + renderTime.TotalMilliseconds + " ms");
         }
@@ -251,7 +251,7 @@ class GDALReadDirect {
             bitmap.Palette = pal;
 
             int stride = bitmapData.Stride;
-            IntPtr buf = bitmapData.Scan0;
+            System.IntPtr buf = bitmapData.Scan0;
 
             band.ReadRaster(0, 0, width, height, buf, width, height, DataType.GDT_Byte, 1, stride);
             TimeSpan renderTime = DateTime.Now - start;
@@ -295,7 +295,7 @@ class GDALReadDirect {
             bitmap.Palette = pal;
 
             int stride = bitmapData.Stride;
-            IntPtr buf = bitmapData.Scan0;
+            System.IntPtr buf = bitmapData.Scan0;
 
             band.ReadRaster(0, 0, width, height, buf, width, height, DataType.GDT_Byte, 1, stride);
             TimeSpan renderTime = DateTime.Now - start;

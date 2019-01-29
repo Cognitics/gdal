@@ -84,46 +84,46 @@ DEFINE_EXTERNAL_CLASS(OGRLayerShadow, OSGeo.OGR.Layer)
 %define %rasterio_functions(GDALTYPE,CSTYPE)
  public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, CSTYPE[] buffer, int buf_xSize, int buf_ySize, int pixelSpace, int lineSpace) {
       CPLErr retval;
-      GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+      System.Runtime.InteropServices.GCHandle handle = System.Runtime.InteropServices.GCHandle.Alloc(buffer, System.Runtime.InteropServices.GCHandleType.Pinned);
       try {
           retval = ReadRaster(xOff, yOff, xSize, ySize, handle.AddrOfPinnedObject(), buf_xSize, buf_ySize, GDALTYPE, pixelSpace, lineSpace);
       } finally {
           handle.Free();
       }
-      GC.KeepAlive(this);
+      System.GC.KeepAlive(this);
       return retval;
   }
   public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, CSTYPE[] buffer, int buf_xSize, int buf_ySize, int pixelSpace, int lineSpace) {
       CPLErr retval;
-      GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+      System.Runtime.InteropServices.GCHandle handle = System.Runtime.InteropServices.GCHandle.Alloc(buffer, System.Runtime.InteropServices.GCHandleType.Pinned);
       try {
           retval = WriteRaster(xOff, yOff, xSize, ySize, handle.AddrOfPinnedObject(), buf_xSize, buf_ySize, GDALTYPE, pixelSpace, lineSpace);
       } finally {
           handle.Free();
       }
-      GC.KeepAlive(this);
+      System.GC.KeepAlive(this);
       return retval;
   }
   public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, CSTYPE[] buffer, int buf_xSize, int buf_ySize, int pixelSpace, int lineSpace, RasterIOExtraArg extraArg) {
       CPLErr retval;
-      GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+      System.Runtime.InteropServices.GCHandle handle = System.Runtime.InteropServices.GCHandle.Alloc(buffer, System.Runtime.InteropServices.GCHandleType.Pinned);
       try {
           retval = ReadRaster(xOff, yOff, xSize, ySize, handle.AddrOfPinnedObject(), buf_xSize, buf_ySize, GDALTYPE, pixelSpace, lineSpace, extraArg);
       } finally {
           handle.Free();
       }
-      GC.KeepAlive(this);
+      System.GC.KeepAlive(this);
       return retval;
   }
   public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, CSTYPE[] buffer, int buf_xSize, int buf_ySize, int pixelSpace, int lineSpace, RasterIOExtraArg extraArg) {
       CPLErr retval;
-      GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+      System.Runtime.InteropServices.GCHandle handle = System.Runtime.InteropServices.GCHandle.Alloc(buffer, System.Runtime.InteropServices.GCHandleType.Pinned);
       try {
           retval = WriteRaster(xOff, yOff, xSize, ySize, handle.AddrOfPinnedObject(), buf_xSize, buf_ySize, GDALTYPE, pixelSpace, lineSpace, extraArg);
       } finally {
           handle.Free();
       }
-      GC.KeepAlive(this);
+      System.GC.KeepAlive(this);
       return retval;
   }
 
@@ -148,53 +148,53 @@ DEFINE_EXTERNAL_CLASS(OGRLayerShadow, OSGeo.OGR.Layer)
  public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, CSTYPE[] buffer, int buf_xSize, int buf_ySize,
      int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace) {
       CPLErr retval;
-      GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+      System.Runtime.InteropServices.GCHandle handle = System.Runtime.InteropServices.GCHandle.Alloc(buffer, System.Runtime.InteropServices.GCHandleType.Pinned);
       try {
           retval = ReadRaster(xOff, yOff, xSize, ySize, handle.AddrOfPinnedObject(), buf_xSize, buf_ySize, GDALTYPE,
                                bandCount, bandMap, pixelSpace, lineSpace, bandSpace);
       } finally {
           handle.Free();
       }
-      GC.KeepAlive(this);
+      System.GC.KeepAlive(this);
       return retval;
   }
   public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, CSTYPE[] buffer, int buf_xSize, int buf_ySize,
      int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace) {
       CPLErr retval;
-      GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+      System.Runtime.InteropServices.GCHandle handle = System.Runtime.InteropServices.GCHandle.Alloc(buffer, System.Runtime.InteropServices.GCHandleType.Pinned);
       try {
           retval = WriteRaster(xOff, yOff, xSize, ySize, handle.AddrOfPinnedObject(), buf_xSize, buf_ySize, GDALTYPE,
                                bandCount, bandMap, pixelSpace, lineSpace, bandSpace);
       } finally {
           handle.Free();
       }
-      GC.KeepAlive(this);
+      System.GC.KeepAlive(this);
       return retval;
   }
   public CPLErr ReadRaster(int xOff, int yOff, int xSize, int ySize, CSTYPE[] buffer, int buf_xSize, int buf_ySize,
      int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg) {
       CPLErr retval;
-      GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+      System.Runtime.InteropServices.GCHandle handle = System.Runtime.InteropServices.GCHandle.Alloc(buffer, System.Runtime.InteropServices.GCHandleType.Pinned);
       try {
           retval = ReadRaster(xOff, yOff, xSize, ySize, handle.AddrOfPinnedObject(), buf_xSize, buf_ySize, GDALTYPE,
                                bandCount, bandMap, pixelSpace, lineSpace, bandSpace, extraArg);
       } finally {
           handle.Free();
       }
-      GC.KeepAlive(this);
+      System.GC.KeepAlive(this);
       return retval;
   }
   public CPLErr WriteRaster(int xOff, int yOff, int xSize, int ySize, CSTYPE[] buffer, int buf_xSize, int buf_ySize,
      int bandCount, int[] bandMap, int pixelSpace, int lineSpace, int bandSpace, RasterIOExtraArg extraArg) {
       CPLErr retval;
-      GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+      System.Runtime.InteropServices.GCHandle handle = System.Runtime.InteropServices.GCHandle.Alloc(buffer, System.Runtime.InteropServices.GCHandleType.Pinned);
       try {
           retval = WriteRaster(xOff, yOff, xSize, ySize, handle.AddrOfPinnedObject(), buf_xSize, buf_ySize, GDALTYPE,
                                bandCount, bandMap, pixelSpace, lineSpace, bandSpace, extraArg);
       } finally {
           handle.Free();
       }
-      GC.KeepAlive(this);
+      System.GC.KeepAlive(this);
       return retval;
   }
 
@@ -210,16 +210,16 @@ DEFINE_EXTERNAL_CLASS(OGRLayerShadow, OSGeo.OGR.Layer)
 public int BuildOverviews( string resampling, int[] overviewlist, $module.GDALProgressFuncDelegate callback, string callback_data) {
       int retval;
       if (overviewlist.Length <= 0)
-        throw new ArgumentException("overviewlist size is small (BuildOverviews)");
+        throw new System.ArgumentException("overviewlist size is small (BuildOverviews)");
 
-      IntPtr ptr = Marshal.AllocHGlobal(overviewlist.Length * Marshal.SizeOf(overviewlist[0]));
+      System.IntPtr ptr = System.Runtime.InteropServices.Marshal.AllocHGlobal(overviewlist.Length * System.Runtime.InteropServices.Marshal.SizeOf(overviewlist[0]));
       try {
-          Marshal.Copy(overviewlist, 0, ptr, overviewlist.Length);
+          System.Runtime.InteropServices.Marshal.Copy(overviewlist, 0, ptr, overviewlist.Length);
           retval = BuildOverviews(resampling, overviewlist.Length, ptr, callback, callback_data);
       } finally {
-          Marshal.FreeHGlobal(ptr);
+          System.Runtime.InteropServices.Marshal.FreeHGlobal(ptr);
       }
-      GC.KeepAlive(this);
+      System.GC.KeepAlive(this);
       return retval;
   }
 public int BuildOverviews( string resampling, int[] overviewlist) {
@@ -228,16 +228,16 @@ public int BuildOverviews( string resampling, int[] overviewlist) {
 
 public GCP[] GetGCPs() {
       /*hello*/
-      IntPtr cPtr = __GetGCPs();
+      System.IntPtr cPtr = __GetGCPs();
       int length = GetGCPCount();
       GCP[] ret = null;
-      if (cPtr != IntPtr.Zero && length > 0)
+      if (cPtr != System.IntPtr.Zero && length > 0)
       {
           ret = new GCP[length];
           for (int i=0; i < length; i++)
               ret[i] = __ReadCArrayItem_GDAL_GCP(cPtr, i);
       }
-      GC.KeepAlive(this);
+      System.GC.KeepAlive(this);
       return ret;
   }
 
@@ -245,9 +245,9 @@ public CPLErr SetGCPs(GCP[] pGCPs, string pszGCPProjection) {
      CPLErr ret = 0;
      if (pGCPs != null && pGCPs.Length > 0)
      {
-         IntPtr cPtr = __AllocCArray_GDAL_GCP(pGCPs.Length);
-         if (cPtr == IntPtr.Zero)
-            throw new ApplicationException("Error allocating CArray with __AllocCArray_GDAL_GCP");
+         System.IntPtr cPtr = __AllocCArray_GDAL_GCP(pGCPs.Length);
+         if (cPtr == System.IntPtr.Zero)
+            throw new System.ApplicationException("Error allocating CArray with __AllocCArray_GDAL_GCP");
 
          try {
              for (int i=0; i < pGCPs.Length; i++)
@@ -260,7 +260,7 @@ public CPLErr SetGCPs(GCP[] pGCPs, string pszGCPProjection) {
             __FreeCArray_GDAL_GCP(cPtr);
          }
      }
-     GC.KeepAlive(this);
+     System.GC.KeepAlive(this);
      return ret;
   }
 }
@@ -277,9 +277,9 @@ public CPLErr SetGCPs(GCP[] pGCPs, string pszGCPProjection) {
     int ret = 0;
     if (pGCPs != null && pGCPs.Length > 0)
      {
-         IntPtr cPtr = __AllocCArray_GDAL_GCP(pGCPs.Length);
-         if (cPtr == IntPtr.Zero)
-            throw new ApplicationException("Error allocating CArray with __AllocCArray_GDAL_GCP");
+         System.IntPtr cPtr = __AllocCArray_GDAL_GCP(pGCPs.Length);
+         if (cPtr == System.IntPtr.Zero)
+            throw new System.ApplicationException("Error allocating CArray with __AllocCArray_GDAL_GCP");
 
          try {
              for (int i=0; i < pGCPs.Length; i++)
@@ -296,7 +296,7 @@ public CPLErr SetGCPs(GCP[] pGCPs, string pszGCPProjection) {
    }
 
  public static void FileFromMemBuffer(string utf8_path, byte[] bytes) {
-     GCHandle handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
+     System.Runtime.InteropServices.GCHandle handle = System.Runtime.InteropServices.GCHandle.Alloc(bytes, System.Runtime.InteropServices.GCHandleType.Pinned);
      try {
           FileFromMemBuffer(utf8_path, bytes.Length, handle.AddrOfPinnedObject());
      } finally {

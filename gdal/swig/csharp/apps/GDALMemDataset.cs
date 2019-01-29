@@ -108,7 +108,7 @@ class GDALMemDataset {
         BitmapData bitmapData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
 
         int stride = bitmapData.Stride;
-        IntPtr buf = bitmapData.Scan0;
+        System.IntPtr buf = bitmapData.Scan0;
 
         try
         {

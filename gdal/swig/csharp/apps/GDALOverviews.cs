@@ -130,12 +130,12 @@ class GDALOverviews {
         }
     }
 
-	public static int ProgressFunc(double Complete, IntPtr Message, IntPtr Data)
+	public static int ProgressFunc(double Complete, System.System.IntPtr Message, System.System.IntPtr Data)
 	{
 		Console.Write("Processing ... " + Complete * 100 + "% Completed.");
-		if (Message != IntPtr.Zero)
+		if (Message != System.System.IntPtr.Zero)
 			Console.Write(" Message:" + System.Runtime.InteropServices.Marshal.PtrToStringAnsi(Message));
-		if (Data != IntPtr.Zero)
+		if (Data != System.System.IntPtr.Zero)
 			Console.Write(" Data:" + System.Runtime.InteropServices.Marshal.PtrToStringAnsi(Data));
 
 		Console.WriteLine("");

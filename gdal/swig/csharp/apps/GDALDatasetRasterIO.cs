@@ -273,7 +273,7 @@ class GDALReadDirect {
         try
         {
             int stride = bitmapData.Stride;
-            IntPtr buf = bitmapData.Scan0;
+            System.IntPtr buf = bitmapData.Scan0;
 
             ds.ReadRaster(xOff, yOff, width, height, buf, imageWidth, imageHeight, dataType,
                 channelCount, bandMap, pixelSpace, stride, 1);

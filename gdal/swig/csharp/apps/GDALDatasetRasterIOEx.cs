@@ -59,12 +59,12 @@ class GDALReadDirect {
 		System.Environment.Exit(-1);
 	}
 
-    public static int ProgressFunc(double Complete, IntPtr Message, IntPtr Data)
+    public static int ProgressFunc(double Complete, System.IntPtr Message, System.IntPtr Data)
     {
         Console.Write("Processing ... " + Complete * 100 + "% Completed.");
-        if (Message != IntPtr.Zero)
+        if (Message != System.IntPtr.Zero)
             Console.Write(" Message:" + System.Runtime.InteropServices.Marshal.PtrToStringAnsi(Message));
-        if (Data != IntPtr.Zero)
+        if (Data != System.IntPtr.Zero)
             Console.Write(" Data:" + System.Runtime.InteropServices.Marshal.PtrToStringUni(Data));
 
         Console.WriteLine("");
@@ -299,7 +299,7 @@ class GDALReadDirect {
         try
         {
             int stride = bitmapData.Stride;
-            IntPtr buf = bitmapData.Scan0;
+            System.IntPtr buf = bitmapData.Scan0;
 
             using (RasterIOExtraArg arg = new RasterIOExtraArg())
             {
@@ -308,7 +308,7 @@ class GDALReadDirect {
                     arg.nVersion = argVersion;
                     arg.eResampleAlg = resampleAlg;
                     arg.pfnProgress = new Gdal.GDALProgressFuncDelegate(ProgressFunc);
-                    arg.pProgressData = handle.AddrOfPinnedObject();  // or IntPtr.Zero if not data to be added;
+                    arg.pProgressData = handle.AddrOfPinnedObject();  // or System.IntPtr.Zero if not data to be added;
                     arg.bFloatingPointWindowValidity = 0;
                     ds.ReadRaster(xOff, yOff, width, height, buf, imageWidth, imageHeight, dataType,
                         channelCount, bandMap, pixelSpace, stride, 1, arg);

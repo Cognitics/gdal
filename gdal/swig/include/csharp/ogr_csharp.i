@@ -48,16 +48,16 @@ DEFINE_EXTERNAL_CLASS(GDALMajorObjectShadow, OSGeo.GDAL.MajorObject)
       int retval;
       int size = WkbSize();
       if (buffer.Length < size)
-        throw new ArgumentException("Buffer size is small (ExportToWkb)");
+        throw new System.ArgumentException("Buffer size is small (ExportToWkb)");
 
-      IntPtr ptr = Marshal.AllocHGlobal(size * Marshal.SizeOf(buffer[0]));
+      System.IntPtr ptr = System.Runtime.InteropServices.Marshal.AllocHGlobal(size * System.Runtime.InteropServices.Marshal.SizeOf(buffer[0]));
       try {
           retval = ExportToWkb(size, ptr, byte_order);
-          Marshal.Copy(ptr, buffer, 0, size);
+          System.Runtime.InteropServices.Marshal.Copy(ptr, buffer, 0, size);
       } finally {
-          Marshal.FreeHGlobal(ptr);
+          System.Runtime.InteropServices.Marshal.FreeHGlobal(ptr);
       }
-      GC.KeepAlive(this);
+      System.GC.KeepAlive(this);
       return retval;
   }
   public int ExportToWkb( byte[] buffer ) {
@@ -66,27 +66,27 @@ DEFINE_EXTERNAL_CLASS(GDALMajorObjectShadow, OSGeo.GDAL.MajorObject)
 
   public static $csclassname CreateFromWkb(byte[] wkb){
      if (wkb.Length == 0)
-        throw new ArgumentException("Buffer size is small (CreateFromWkb)");
+        throw new System.ArgumentException("Buffer size is small (CreateFromWkb)");
      $csclassname retval;
-     IntPtr ptr = Marshal.AllocHGlobal(wkb.Length * Marshal.SizeOf(wkb[0]));
+     System.IntPtr ptr = System.Runtime.InteropServices.Marshal.AllocHGlobal(wkb.Length * System.Runtime.InteropServices.Marshal.SizeOf(wkb[0]));
      try {
-         Marshal.Copy(wkb, 0, ptr, wkb.Length);
+         System.Runtime.InteropServices.Marshal.Copy(wkb, 0, ptr, wkb.Length);
          retval =  new $csclassname(wkbGeometryType.wkbUnknown, null, wkb.Length, ptr, null);
       } finally {
-          Marshal.FreeHGlobal(ptr);
+          System.Runtime.InteropServices.Marshal.FreeHGlobal(ptr);
       }
       return retval;
   }
 
   public static $csclassname CreateFromWkt(string wkt){
-     return new $csclassname(wkbGeometryType.wkbUnknown, wkt, 0, IntPtr.Zero, null);
+     return new $csclassname(wkbGeometryType.wkbUnknown, wkt, 0, System.IntPtr.Zero, null);
   }
 
   public static $csclassname CreateFromGML(string gml){
-     return new $csclassname(wkbGeometryType.wkbUnknown, null, 0, IntPtr.Zero, gml);
+     return new $csclassname(wkbGeometryType.wkbUnknown, null, 0, System.IntPtr.Zero, gml);
   }
 
-  public Geometry(wkbGeometryType type) : this(OgrPINVOKE.new_Geometry((int)type, null, 0, IntPtr.Zero, null), true, null) {
+  public Geometry(wkbGeometryType type) : this(OgrPINVOKE.new_Geometry((int)type, null, 0, System.IntPtr.Zero, null), true, null) {
     if (OgrPINVOKE.SWIGPendingException.Pending) throw OgrPINVOKE.SWIGPendingException.Retrieve();
   }
 }
