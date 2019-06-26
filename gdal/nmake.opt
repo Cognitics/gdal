@@ -78,12 +78,12 @@ HTMLDIR = "$(GDAL_HOME)\html"
 # Set this to the installed directory containing python.  If you don't
 # have python just let it point to a directory that does not exist (as now).
 !IFNDEF PYDIR 
-PYDIR   =	"C:\Software\Python24"
+PYDIR   =	$(PYTHON_PATH)
 !ENDIF
 
 # Set the location of your SWIG installation
 !IFNDEF SWIG
-SWIG = swig.exe
+SWIG = $(ROOT_BUILD_PATH)\swigwin-3.0.12
 !ENDIF
 
 # SWIG Java settings
@@ -122,11 +122,14 @@ WITH_PDB=1
 !ENDIF
 
 !IFNDEF GDAL_PDB
+# GDAL_PDB = $(GDAL_ROOT)\gdal$(VERSION).pdb
 GDAL_PDB = $(GDAL_ROOT)\gdal$(VERSION).pdb
 !ENDIF
 
 !IFDEF WITH_PDB
-CXX_PDB_FLAGS=/Zi /Fd$(GDAL_PDB)
+CXX_PDB_FLAGS=/Z7
+# /Fd$(GDAL_PDB)
+GDAL_PDB=xx
 !ELSE
 CXX_PDB_FLAGS=
 !ENDIF
@@ -332,18 +335,20 @@ JPEG12_SUPPORTED = 1
 # NCSEcw4.lib, and add -DHAVE_COMPRESS to ECWFLAGS.  The ECWDIR setting will
 # also need some adjustment. 
 
+!IF "$(BUILD_ECW)" == "YES"
 # Uncomment the following and update to enable ECW read support with the 5.0 SDK
-#ECWDIR  =  "c:\Intergraph\ecwsdk5"
-#ECWFLAGS = -DECWSDK_VERSION=50 \
-#       -I$(ECWDIR)\include \
-#       -I$(ECWDIR)\include/NCSECW/api -I$(ECWDIR)\include/NCSECW/jp2 \
-#       -I$(ECWDIR)\include/NCSECW/ecw
-#ECWLIB  =  $(ECWDIR)\lib\vc90\win32\NCSEcw.lib
+ECWDIR  =  $(ROOT_BUILD_PATH)\ecwsdk5
+ECWFLAGS = -DECWSDK_VERSION=50 \
+       -I$(ECWDIR)\include \
+       -I$(ECWDIR)\include/NCSECW/api -I$(ECWDIR)\include/NCSECW/jp2 \
+       -I$(ECWDIR)\include/NCSECW/ecw
+ECWLIB  =  $(ECW_LIBDIR)\NCSEcw.lib
+!ENDIF
 
 # To build ECW support as a plugin uncomment the following, and make sure
 # to do "nmake /f makefile.vc plugin" in gdal/frmts/ecw and copy the two
 # resulting DLLs to an appropriate place.
-#ECW_PLUGIN = YES
+ECW_PLUGIN = YES
 
 
 # Uncomment the following and update to enable JP2Lura driver
@@ -502,19 +507,17 @@ INGRES_LIB = "$(INGRES_HOME)\lib\iilibapi.lib" \
 
 
 # SQLite Libraries
-#SQLITE_INC=-IN:\pkg\sqlite-win32
-#SQLITE_LIB=N:\pkg\sqlite-win32\sqlite3_i.lib
+SQLITE_INC=-I$(OUTPUT_DIR)\include -DHAVE_SPATIALITE
+#SQLITE_LIB=$(OUTPUT_DIR)\lib\sqlite3008007.lib
 # For spatialite support, try this instead (assuming you grab the libspatialite-amalgamation-2.3.1 and installed it in osgeo4w):
 # The -DSPATIALITE_AMALGAMATION, which cause "spatialite/sqlite3.h" to be included instead of "sqlite3.h" might not be necessary
 # depending on the layout of the include directories. In case of compilation errors, remove it.
-# For RasterLite2 support, add something like -Ic:\install-rl2\include -DHAVE_RASTERLITE2
-#SQLITE_INC=-IC:\osgeo4w\include -DHAVE_SPATIALITE -DSPATIALITE_AMALGAMATION
-# For RasterLite2 support, add something like c:\install-rl2\lib\librasterlite2.lib
-#SQLITE_LIB=C:\osgeo4w\lib\spatialite_i.lib
+#SQLITE_INC=-I$(OUTPUT_DIR)\include -DHAVE_SPATIALITE -DSPATIALITE_AMALGAMATION
+SQLITE_LIB=$(OUTPUT_DIR)\lib\spatialite_i.lib $(OUTPUT_DIR)\lib\sqlite3008007.lib
 # Uncomment following line if libsqlite3 has been compiled with SQLITE_HAS_COLUMN_METADATA=yes
 #SQLITE_HAS_COLUMN_METADATA=yes
 # Uncomment following line if spatialite is 4.1.2 or later
-#SPATIALITE_412_OR_LATER=yes
+SPATIALITE_412_OR_LATER=yes
 
 # PCRE Library (REGEXP support for SQLite) for example from http://sourceforge.net/projects/gnuwin32/files/pcre/7.0/pcre-7.0.exe/download
 #PCRE_INC=-I"C:\Program Files\GNUWin32\include" -DHAVE_PCRE
@@ -580,11 +583,11 @@ OCI_INCLUDE =	-I$(ORACLE_HOME)\oci\include
 #          $(SDE_SDK)\lib\sde$(SDE_VERSION).lib $(SDE_SDK)\lib\sg$(SDE_VERSION).lib      
 
 
-#FGDB_ENABLED = YES
-#FGDB_PLUGIN = YES
-#FGDB_SDK = C:\Users\rburhum\Desktop\FileGDB_API_VS2008_1_0beta3
-#FGDB_INC = $(FGDB_SDK)\include 
-#FGDB_LIB = $(FGDB_SDK)\lib\FileGDBAPI.lib
+FGDB_ENABLED = YES
+FGDB_PLUGIN = YES
+FGDB_SDK = $(FILEGDB_SDK)
+FGDB_INC = $(FILEGDB_INC)\include 
+FGDB_LIB = $(FILEGDB_LIB)
 
 #uncomment to build AmigoCloud as a plugin instead
 #AMIGOCLOUD_PLUGIN = YES
@@ -603,12 +606,12 @@ OCI_INCLUDE =	-I$(ORACLE_HOME)\oci\include
 
 # Uncomment to use libcurl (DLL by default)
 # The cURL library is used for WCS, WMS, GeoJSON, SRS call importFromUrl(), WFS, GFT, CouchDB, /vsicurl/ etc.
-#CURL_DIR=C:\curl-7.15.0
-#CURL_INC = -I$(CURL_DIR)/include
+CURL_DIR=$(GDAL_HOME)
+CURL_INC = -I$(CURL_DIR)/include
 # Uncomment following line to use libcurl as dynamic library
-#CURL_LIB = $(CURL_DIR)/libcurl_imp.lib wsock32.lib wldap32.lib winmm.lib
+CURL_LIB = $(CURL_DIR)/lib/libcurl.lib wsock32.lib wldap32.lib winmm.lib
 # Uncomment following two lines to use libcurl as static library
-#CURL_LIB = $(CURL_DIR)/libcurl.lib wsock32.lib wldap32.lib winmm.lib
+#CURL_LIB = $(CURL_DIR)/lib/libcurl.lib wsock32.lib wldap32.lib winmm.lib
 #CURL_CFLAGS = -DCURL_STATICLIB
 
 # Uncomment for DODS / OPeNDAP support
@@ -618,9 +621,10 @@ OCI_INCLUDE =	-I$(ORACLE_HOME)\oci\include
 #DODS_FLAGS = -DLIBDAP_39
 
 # Uncomment for GEOS support (GEOS >= 3.1.0 required)
-#GEOS_DIR=C:/warmerda/geos
-#GEOS_CFLAGS = -I$(GEOS_DIR)/capi -I$(GEOS_DIR)/source/headers -DHAVE_GEOS
-#GEOS_LIB     = $(GEOS_DIR)/source/geos_c_i.lib
+GEOS_DIR=$(OUTPUT_DIR)\
+GEOS_CFLAGS = -I$(OUTPUT_DIR)\include -DHAVE_GEOS
+GEOS_CFLAGS = -I$(OUTPUT_DIR)\include -DHAVE_GEOS
+GEOS_LIB     = $(OUTPUT_DIR)\lib\geos_c_3.5.0.lib
 
 # Uncomment for SOSI support
 #SOSI_PLUGIN = YES
@@ -629,11 +633,11 @@ OCI_INCLUDE =	-I$(ORACLE_HOME)\oci\include
 #SOSI_LIBS = e:/sosi/FYBA.lib e:/sosi/GM.lib e:/sosi/UT.lib
 
 # Uncomment for OpenJpeg (release v2.1 or later) support
-#OPENJPEG_ENABLED = YES
+OPENJPEG_ENABLED = YES
 # Note that, contrary to GDAL releases <= 2.2.X, this must point to the
 # directory where openjpeg.h and opj_config.h are set 
-#OPENJPEG_CFLAGS = -IC:\openjpeg\include\openjpeg-2.X
-#OPENJPEG_LIB = C:\openjpeg\lib\openjp2.lib
+OPENJPEG_CFLAGS = -I$(OUTPUT_DIR)\include\openjpeg-2.3
+OPENJPEG_LIB = $(OUTPUT_DIR)\lib\openjp2.lib
 
 #if using an external zlib uncomment the following lines
 #ZLIB_EXTERNAL_LIB = 1
@@ -778,7 +782,7 @@ ADD_LIBS	=
 
 # Binding list. One or several in the following list
 # csharp, java, python
-#BINDINGS=java python
+BINDINGS=csharp python
 
 # Comment out the following if you want to build with Python support, but
 # you don't have Numeric Python installed (with include files).  Numeric
@@ -803,7 +807,11 @@ HAVE_LERC=1
 # Location of MS Data Access SDK (not really needed anymore I think)
 #MSDASDK =	D:\Software\MDAC_2.6
 
+!IF "$(DEBUG)" == "1"
+GDAL_DLL =	gdal$(VERSION)d.dll
+!ELSE
 GDAL_DLL =	gdal$(VERSION).dll
+!ENDIF
 
 INC	=	-I$(GDAL_ROOT)\port -I$(GDAL_ROOT)\ogr -I$(GDAL_ROOT)\gcore \
 		-I$(GDAL_ROOT)\alg -I$(GDAL_ROOT)\ogr\ogrsf_frmts  -I$(GDAL_ROOT)\gnm -I$(GDAL_ROOT)\gnm\gnm_frmts -I$(GDAL_ROOT)\apps
@@ -817,6 +825,10 @@ MSVC_VLD_LIB=/LIBPATH:$(MSVC_VLD_DIR)/lib/Win32
 !ENDIF
 !ENDIF
 
+!IFDEF INCLUDE_OGR_FRMTS
+OGR_FLAG = -DOGR_ENABLED
+!ENDIF
+
 !IFDEF INCLUDE_GNM_FRMTS
 !IFNDEF GNM_FLAG
 GNM_FLAG = -DGNM_ENABLED
@@ -827,7 +839,7 @@ GNM_FLAG = -DGNM_ENABLED
 LINKER_FLAGS = $(EXTRA_LINKER_FLAGS) $(MSVC_VLD_LIB) $(LDEBUG)
 
 
-CFLAGS	=	$(OPTFLAGS) $(WARNFLAGS) $(USER_DEFS) $(SSEFLAGS) $(SSSE3FLAGS) $(INC) $(AVXFLAGS) $(EXTRAFLAGS) $(OGR_FLAG) $(GNM_FLAG) $(MSVC_VLD_FLAGS) -DGDAL_COMPILATION
+CFLAGS	=	$(OPTFLAGS) $(WARNFLAGS) $(USER_DEFS) $(SSEFLAGS) $(INC) $(AVXFLAGS) $(EXTRAFLAGS) $(OGR_FLAG) $(GNM_FLAG) $(MSVC_VLD_FLAGS) -DGDAL_COMPILATION
 CPPFLAGS = $(CFLAGS) -DNOMINMAX
 MAKE	=	nmake /nologo
 
@@ -839,8 +851,8 @@ INSTALL	=	xcopy /y /r /d /f /I
 
 CPLLIB	=    $(GDAL_ROOT)/port/cpl.lib
 
-!IF "$(DLLBUILD)" == "1"
-GDALLIB	=    $(GDAL_ROOT)/gdal_i.lib
+!IFDEF DLLBUILD
+GDALLIB  =    $(GDAL_ROOT)\gdal_i.lib
 !ELSE
 GDALLIB	=    $(GDAL_ROOT)/gdal.lib
 !ENDIF
