@@ -1049,8 +1049,8 @@ static CPLXMLNode *CreateService(const CPLString &base_url,
     CPLString xml = "<WCS_GDAL>";
     xml += "<ServiceURL>" + base_url + "</ServiceURL>";
     xml += "<Version>" + version + "</Version>";
-    xml += "<CoverageName>" + coverage + "</CoverageName>";
-    xml += "<Parameters>" + parameters + "</Parameters>";
+    xml += "<CoverageName>" + CPLString(CPLEscapeString(coverage, -1, CPLES_XML)) + "</CoverageName>";
+    xml += "<Parameters>" + CPLString(CPLEscapeString(parameters, -1, CPLES_XML)) + "</Parameters>";
     xml += "</WCS_GDAL>";
     CPLXMLNode *psService = CPLParseXMLString(xml);
     return psService;
@@ -1135,13 +1135,15 @@ static void ParseURL(CPLString &url, CPLString &version, CPLString &coverage, CP
     if (WCSParseVersion(version) == 0) {
         version = "2.0.1";
     }
-    coverage = CPLURLGetValue(url, "coverageid"); // 2.0
+    int coverage_len = 0;
+    coverage = CPLUnescapeString(CPLURLGetValue(url, "coverageid"), &coverage_len, CPLES_URL); // 2.0
     if (coverage == "") {
-        coverage = CPLURLGetValue(url, "identifiers"); // 1.1
+        coverage = CPLUnescapeString(CPLURLGetValue(url, "identifiers"), &coverage_len, CPLES_URL); // 1.1
         if (coverage == "") {
-            coverage = CPLURLGetValue(url, "coverage"); // 1.0
+            coverage = CPLUnescapeString(CPLURLGetValue(url, "coverage"), &coverage_len, CPLES_URL); // 1.0
             url = URLRemoveKey(url, "coverage");
-        } else {
+        }
+        else {
             url = URLRemoveKey(url, "identifiers");
         }
     } else {

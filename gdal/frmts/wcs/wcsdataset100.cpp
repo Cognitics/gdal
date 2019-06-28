@@ -165,7 +165,7 @@ CPLString WCSDataset100::DescribeCoverageRequest()
     request = CPLURLAddKVP(request, "SERVICE", "WCS");
     request = CPLURLAddKVP(request, "REQUEST", "DescribeCoverage");
     request = CPLURLAddKVP(request, "VERSION", CPLGetXMLValue( psService, "Version", "1.0.0" ));
-    request = CPLURLAddKVP(request, "COVERAGE", CPLGetXMLValue( psService, "CoverageName", "" ));
+    request = CPLURLAddKVP(request, "COVERAGE", URLEncode(CPLGetXMLValue( psService, "CoverageName", "" )));
     CPLString extra = CPLGetXMLValue(psService, "Parameters", "");
     if (extra != "") {
         std::vector<CPLString> pairs = Split(extra, "&");
